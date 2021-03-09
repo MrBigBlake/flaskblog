@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from config import Config
 
 
@@ -6,6 +7,9 @@ def create_app(config_class=Config):
     """使用应用工厂函数来返回Flask应用"""
     app = Flask(__name__)
     app.config.from_object(config_class)
+
+    # 支持跨域
+    CORS(app)
 
     # 注册蓝图
     from app.api import bp as api_bp
