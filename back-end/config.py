@@ -6,4 +6,5 @@ load_dotenv(os.path.join(basedir, ".env"), encoding="utf-8")  # 用来读取环�
 
 
 class Config:
-    pass
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL") or "sqlite:///" + os.path.join(basedir, "app.db")
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
