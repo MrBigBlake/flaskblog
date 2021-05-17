@@ -2,7 +2,8 @@ export default {
   debug: true,
   state: {
     is_new: false,
-    is_authenticated: !!window.localStorage.getItem("blog-token")
+    is_authenticated: !!window.localStorage.getItem("blog-token"),
+    user_id: window.localStorage.getItem("blog-token") ? JSON.parse(atob(window.localStorage.getItem("blog-token").split(".")[1])).user_id : 0
   },
   setNewAction() {
     if (this.debug) {
@@ -20,7 +21,8 @@ export default {
     if (this.debug) {
       console.log("loginAction triggered")
     }
-    this.state.is_authenticated = True
+    this.state.is_authenticated = true
+    this.state.user_id = JSON.parse(atob(window.localStorage.getItem("blog-token").split(".")[1])).user_id
   },
   logoutAction() {
     if (this.debug) {
@@ -28,5 +30,6 @@ export default {
     }
     window.localStorage.removeItem("blog-token")
     this.state.is_authenticated = false
+    this.state.user_id = 0
   }
 }

@@ -20,18 +20,18 @@ def creat_user():
     message = {}
 
     # 进行字段校验
-    if not data.get("username"):
-        message["username"] = "Please provide a valid username."
-    if not data.get("email") or not re.match(EMAIL_RE_PATTERN, data.get("email")):
-        message["email"] = "Please provide a valid email address."
-    if not data.get("password"):
-        message["password"] = "Please provide a valid password."
-
-    # 用户名或邮箱是否已存在
-    if User.query.filter_by(username=data.get("username")).first():
-        message["username"] = "Please use a different username."
-    if User.query.filter_by(username=data.get("email")).first():
-        message["email"] = "Please use a different email address."
+    # if not data.get("username"):
+    #     message["username"] = "Please provide a valid username."
+    # if not data.get("email") or not re.match(EMAIL_RE_PATTERN, data.get("email")):
+    #     message["email"] = "Please provide a valid email address."
+    # if not data.get("password"):
+    #     message["password"] = "Please provide a valid password."
+    #
+    # # 用户名或邮箱是否已存在
+    # if User.query.filter_by(username=data.get("username")).first():
+    #     message["username"] = "Please use a different username."
+    # if User.query.filter_by(username=data.get("email")).first():
+    #     message["email"] = "Please use a different email address."
 
     if message:
         return bad_request(message)
@@ -77,16 +77,16 @@ def update_user(id):
 
     message = {}
 
-    if not data.get("username"):
-        message["username"] = "Please provide a valid username."
-    if not data.get("email") or not re.match(EMAIL_RE_PATTERN, data.get("email")):
-        message["email"] = "Please provide a valid email address."
-
-    # 用户名或邮箱是否已存在
-    if User.query.filter_by(username=data.get("username")).first():
-        message["username"] = "Please use a different username."
-    if User.query.filter_by(username=data.get("email")).first():
-        message["email"] = "Please use a different email address."
+    # if not data.get("username"):
+    #     message["username"] = "Please provide a valid username."
+    # if not data.get("email") or not re.match(EMAIL_RE_PATTERN, data.get("email")):
+    #     message["email"] = "Please provide a valid email address."
+    #
+    # # 用户名或邮箱是否已存在
+    # if User.query.filter_by(username=data.get("username")).first():
+    #     message["username"] = "Please use a different username."
+    # if User.query.filter_by(username=data.get("email")).first():
+    #     message["email"] = "Please use a different email address."
 
     if message:
         return bad_request(message)

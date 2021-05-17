@@ -4,6 +4,7 @@ import Home from "@/components/Home"
 import Login from "@/components/Login"
 import Register from "@/components/Register"
 import Profile from "@/components/Profile"
+import EditProfile from "@/components/EditProfile";
 import Ping from "@/components/Ping"
 
 Vue.use(Router)
@@ -26,9 +27,21 @@ const router = new Router({
       component: Register
     },
     {
-      path: "/profile",
+      path: "/user/:id",
       name: "Profile",
-      component: Profile
+      component: Profile,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: "/edit-profile",
+      name: "EditProfile",
+      component: EditProfile,
+      meta: {
+        requiresAuth: true
+      }
+
     },
     {
       path: "/ping",
@@ -39,7 +52,7 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  const token = window.localStorage.getItem("token")
+  const token = window.localStorage.getItem("blog-token")
   // 没有token时访问需要登录的页面直接跳转到登录页面
   if (to.matched.some(record => record.meta.requiredAuth) && !token) {
     next({
@@ -51,6 +64,15 @@ router.beforeEach((to, from, next) => {
     next({
       path: from.fullPath
     })
+  } else if (to.matched.length === 0) {
+    console.log("here")
+    console.log(to.matched)
+    Vue.toasted.error("404: NOT FOUND", {icon: "fingerprint"})
+    if (from.name) {
+      next({
+        path: "/"
+      })
+    }
   } else {
     next()
   }

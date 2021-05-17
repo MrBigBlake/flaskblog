@@ -40,7 +40,6 @@
 </template>
 
 <script>
-  import axios from "axios"
   import Alert from "./Alert"
   import store from "../store"
 
@@ -89,7 +88,7 @@
           return false
         }
 
-        const path = "http://localhost:5000/api/tokens"
+        const path = "/tokens"
         let data = {}
         // axios 实现 Basic Auth 需要在 config 中设置 auth 属性
         let config = {
@@ -99,7 +98,7 @@
           }
 
         }
-        axios.post(path, data, config)
+        this.$axios.post(path, data, config)
           .then((response) => {
             window.localStorage.setItem("blog-token", response.data.token)
             store.resetNotNewAction()
@@ -107,17 +106,21 @@
 
 
             if (typeof this.$route.query.redirect === "undefined") {
-              this.$route.push("/")
+              this.$router.push("/")
             } else {
-              this.$route.push(this.$route.query.redirect)
+              this.$router.push(this.$route.query.redirect)
             }
           })
           .catch((error) => {
-              if (error.response.status === 401) {
-                this.loginForm.usernameError = "Invalid username or password."
-                this.loginForm.passwordError = "Invalid username or password."
+              if (error.response) {
+                if (error.response.status === 401) {
+                  this.loginForm.usernameError = "Invalid username or password."
+                  this.loginForm.passwordError = "Invalid username or password."
+                } else {
+                  console.error(error.response)
+                }
               } else {
-                console.log(error.response)
+                console.error(error)
               }
             }
           )

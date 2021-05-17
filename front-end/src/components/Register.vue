@@ -35,7 +35,6 @@
 </template>
 
 <script>
-  import axios from "axios"
   import store from "../store"
 
   export default {
@@ -92,23 +91,23 @@
         }
 
         // 请求后端注册接口
-        const path = "http://localhost:5000/api/users"
+        const path = "/users"
         let data = {
           username: this.registerForm.username,
           email: this.registerForm.email,
           password: this.registerForm.password,
         }
-        axios.post(path, data)
+        this.$axios.post(path, data)
           .then((response) => {
             store.setNewAction()
             this.$router.push("/login")
           })
           .catch((error) => {
-            for (var field in error.response.data.message) {
+            for (let field in error.response.data.message) {
               if (field === "username") {
                 this.registerForm.usernameError = error.response.data.message.username
               } else if (field === "email") {
-                this.registerForm.emailError = error.response.data.message.eamil
+                this.registerForm.emailError = error.response.data.message.email
               } else if (field === "password") {
                 this.registerForm.passwordError = error.response.data.message.password
               }
